@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from "@angular/router";
+import { SharedModule } from "../auth/shared/shared.module";
 
 export const ROUTES: Routes = [
 	{
@@ -17,7 +18,9 @@ export const ROUTES: Routes = [
 @NgModule({
 	imports: [
 		CommonModule,
-		RouterModule.forChild(ROUTES)
-	]
+		RouterModule.forChild(ROUTES),
+		// avoid duplicate instance with forRoot
+		SharedModule.forRoot()
+	],
 })
 export class AuthModule { }

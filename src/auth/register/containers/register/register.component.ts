@@ -1,15 +1,21 @@
 import { Component } from '@angular/core';
 import { FormGroup } from "@angular/forms";
+// service
+import { AuthService } from "../../../service/auth.service";
 
 @Component({
 	selector: 'register',
 	templateUrl: 'register.component.html'
 })
 export class RegisterComponent {
-	constructor() { }
-
+	constructor(private authService: AuthService) { }
 
 	registerUser(event: FormGroup) {
-		console.log(event.value)
+
+		this.authService.register(event.value)
+			.subscribe(res => {
+
+			})
+
 	}
 }
