@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
   template: `
     <div>
-      Hello Ultimate Angular!
+      Hello Test!
     </div>
   `
 })
