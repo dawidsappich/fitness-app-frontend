@@ -1,10 +1,16 @@
 import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms'
 
 @Component({
 	selector: 'login',
-	styleUrls: ['login.component.scss'],
-	template: 'login.component.html'
+	templateUrl: 'login.component.html'
 })
 export class LoginComponent {
-	constructor() {}
+	constructor() { }
+
+	loginUser(event: FormGroup) {
+
+		console.log(event.value);
+
+	}
 }
