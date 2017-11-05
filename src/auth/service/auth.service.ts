@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from "@angular/http";
 
+// store
+import { Store } from 'store';
+
 // rxjs
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map';
@@ -14,11 +17,9 @@ import { Response } from "../../app/containers/models/response";
 export class AuthService {
 
 	private domain = 'http://localhost:7777';
-	private user: string;
-	private authToken: string;
 	private options: RequestOptions;
 
-	constructor(private http: Http) {
+	constructor(private http: Http, private store: Store) {
 		this.options = new RequestOptions({
 			headers: new Headers({
 				'content-type': 'application/json'

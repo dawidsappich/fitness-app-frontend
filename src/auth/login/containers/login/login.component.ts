@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms'
+import { Router } from "@angular/router";
 
 // service
 import { AuthService } from "../../../service/auth.service";
@@ -12,15 +13,24 @@ import { Response } from "../../../../app/containers/models/response";
 })
 export class LoginComponent {
 
-	constructor(private authService: AuthService) { }
+	error: string;
+
+	constructor(private authService: AuthService, private router: Router) { }
 
 	loginUser(event: FormGroup) {
 
 		this.authService.login(event.value)
 			.subscribe((res: Response) => {
 
+				if (!res.success) {
+					this.error = res.message;
+				}
+
 				if (res.success) {
+					this.error = null;
 					this.authService.setTokenInLocalStorage(res);
+					// navigate to home
+					this.router.navigate(['/']);
 				}
 
 			})

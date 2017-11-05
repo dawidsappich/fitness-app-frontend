@@ -1,6 +1,8 @@
+import { User } from "./user";
+
 export interface Response {
 	success: boolean,
 	message: any,
 	token?: string,
-	user?: any
+	user?: User
 }
