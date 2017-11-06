@@ -7,14 +7,18 @@ import { Store } from 'store';
 // rxjs
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
 // JSON Web Token
 import { tokenNotExpired } from 'angular2-jwt';
 // Inteface
-import { User } from "../../app/containers/models/user";
+import { User, Member } from "../../app/containers/models/user";
 import { Response } from "../../app/containers/models/response";
 
 @Injectable()
 export class AuthService {
+
+	// is used notify subscribers when user is trying to log in
+	auth$: Observable<Response>;
 
 	private domain = 'http://localhost:7777';
 	private options: RequestOptions;
@@ -27,9 +31,29 @@ export class AuthService {
 		})
 	}
 
+	/**
+	 *
+	 * @param user
+	 */
 	login(user: User): Observable<any> {
 		let url = `${this.domain}/api/v1/user/login`;
-		return this.http.post(url, user, this.options).map(res => res.json())
+		return this.auth$ = this.http.post(url, user, this.options)
+			.map(res => res.json())
+			// now we have the Response (user)
+			.do((next: Response) /*user*/ => {
+				// if no success
+				if (!next.success) {
+					// user is not logged in
+					this.store.set('user', null);
+					return;
+				}
+				const user: Member = {
+					id: next.token,
+					email: next.user.email,
+					isAuthenticated: true
+				};
+				this.store.set('user', user);
+			})
 	}
 
 	register(user: User): Observable<any> {
