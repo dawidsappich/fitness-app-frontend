@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms'
 import { Router } from "@angular/router";
+
+import { Subscription } from "rxjs/Subscription";
 
 // service
 import { AuthService } from "../../../service/auth.service";
@@ -11,15 +13,21 @@ import { Response } from "../../../../app/containers/models/response";
 	selector: 'login',
 	templateUrl: 'login.component.html'
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
 
 	error: string;
+	isLoggedIn: Subscription;
 
 	constructor(private authService: AuthService, private router: Router) { }
 
+	// unsubscribe when destroyed
+	ngOnDestroy() {
+		this.isLoggedIn.unsubscribe();
+	}
+
 	loginUser(event: FormGroup) {
 
-		this.authService.login(event.value)
+		this.isLoggedIn = this.authService.login(event.value)
 			.subscribe((res: Response) => {
 
 				if (!res.success) {
