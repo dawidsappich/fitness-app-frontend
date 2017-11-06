@@ -3,3 +3,9 @@ export interface User {
 	email: string,
 	password: string
 }
+
+export interface Member {
+	id: string,
+	email: string,
+	isAuthenticated: boolean
+}
