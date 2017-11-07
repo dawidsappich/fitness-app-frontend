@@ -28,8 +28,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // get notified when user status changes
-    this.subscription = this.authService.auth$.subscribe();
     this.user$ = this.store.select<Member>('user');
+    // FIX: Observable is undefinied when view is loaded although
+    // the authservice is injected
+    // this.subscription = this.authService.auth$.subscribe();
   }
 
   ngOnDestroy() {
@@ -40,6 +42,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.logout();
     // redirect to login screen
     this.router.navigate(['/auth/login']);
+  }
+
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
   }
 
 }
