@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from "../../../auth/service/auth.service";
 import { Store } from 'store';
+import { Router } from "@angular/router";
 
 // interface
 import { Member } from "../models/user";
@@ -21,7 +22,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -33,4 +35,11 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
+  logout() {
+    this.authService.logout();
+    // redirect to login screen
+    this.router.navigate(['/auth/login']);
+  }
+
 }
