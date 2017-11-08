@@ -62,6 +62,10 @@ export class AuthService {
 		return this.http.post(url, user, this.options).map(res => res.json());
 	}
 
+	getUser(): Observable<Member> {
+		return this.store.select('user');
+	}
+
 	setTokenInLocalStorage(res: Response) {
 		localStorage.setItem('token', res.token);
 	}
