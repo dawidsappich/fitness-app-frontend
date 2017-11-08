@@ -24,7 +24,6 @@ export class AuthService {
 	private options: RequestOptions;
 
 	constructor(private http: Http, private store: Store) {
-		this.auth$ = new Observable<Response>();
 
 		this.options = new RequestOptions({
 			headers: new Headers({
