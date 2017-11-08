@@ -38,7 +38,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  logout() {
+  onLogout() {
+    this.store.set('user', null);
     this.authService.logout();
     // redirect to login screen
     this.router.navigate(['/auth/login']);
