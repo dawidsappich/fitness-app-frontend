@@ -2,7 +2,7 @@
 	<div class="wrapper">
 		<img src="/img/logo.svg" alt="Logo">
 		<div class="app-header__user-info">
-			<span *ngIf="user?.authenticated" (click)="logoutUser()"></span>
+			<span *ngIf="user?.isAuthenticated" (click)="logoutUser()"></span>
 		</div>
 	</div>
 </div>
