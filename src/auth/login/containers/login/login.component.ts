@@ -16,18 +16,18 @@ import { Response } from "../../../../app/containers/models/response";
 export class LoginComponent implements OnDestroy {
 
 	error: string;
-	isLoggedIn: Subscription;
+	subscription: Subscription;
 
 	constructor(private authService: AuthService, private router: Router) { }
 
 	// unsubscribe when destroyed
 	ngOnDestroy() {
-		this.isLoggedIn.unsubscribe();
+		this.subscription.unsubscribe();
 	}
 
 	loginUser(event: FormGroup) {
 
-		this.isLoggedIn = this.authService.login(event.value)
+		this.subscription = this.authService.login(event.value)
 			.subscribe((res: Response) => {
 
 				if (!res.success) {
