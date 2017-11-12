@@ -1,5 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
+import { Observable } from "rxjs/Observable";
 
 import { MealsService } from "../../../shared/services/meals/meals.service";
 import { AuthService } from "../../../../auth/service/auth.service";
@@ -12,10 +13,9 @@ import { Member } from "../../../../app/containers/models/user";
 	styleUrls: ['meals.component.scss'],
 	templateUrl: 'meals.component.html'
 })
-export class MealsComponent implements OnInit, OnDestroy {
+export class MealsComponent implements OnInit {
 
-	subscription: Subscription;
-	meals: Meal[];
+	meals$: Observable<Meal>;
 	user: string;
 
 	constructor(
@@ -26,16 +26,11 @@ export class MealsComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		// get the actual user from the store to get a list of meals from the database
 		this.authService.getUser().subscribe((user: Member) => this.user = user.email);
-		this.subscription
-			= this.mealsService.getmeals(this.user)
-			.subscribe(res => {
-					this.meals = res.message.map((meal: Meal) => {
-						return meal.name;
-					})
-				})
+		this.meals$ = this.mealsService.getmeals(this.user);
 	}
 
-	ngOnDestroy() {
-		this.subscription.unsubscribe();
+	removeMeal(meal: any) {
+		this.mealsService.removeMeal(meal._id)
+			.subscribe(() => { this.meals$ = this.mealsService.getmeals(this.user) })
 	}
 }
