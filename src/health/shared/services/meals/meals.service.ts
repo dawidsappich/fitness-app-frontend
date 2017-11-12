@@ -39,8 +39,14 @@ export class MealsService {
 		return this.http.get(url, this.options).map(res => res.json());
 	}
 
-	addNewMeal() {
-		return true;
+	addNewMeal(meal: Meal) {
+		let url = `${this.domain}/api/v1/meal/new`;
+		return this.http.post(url, meal, this.options).map(res => res.json());
+	}
+
+	removeMeal(mealId: string) {
+		let url = `${this.domain}/api/v1/meal/${mealId}`;
+		return this.http.delete(url, this.options).map(res => res.json());
 	}
 
 }
