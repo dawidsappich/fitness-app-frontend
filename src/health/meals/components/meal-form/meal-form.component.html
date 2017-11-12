@@ -6,6 +6,8 @@
 			<label>
 				<h3>Meal name</h3>
 				<input type="text" placeholder="e.g. Müsli" formControlName="name">
+				<div class="error"
+				*ngIf="required"></div>
 			</label>
 
 		</div>

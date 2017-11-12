@@ -1,3 +1,5 @@
 export interface Meal {
-	name: string
+	name: string,
+	ingredients?: string[],
+	email?: string
 }
