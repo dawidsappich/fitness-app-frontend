@@ -39,4 +39,8 @@ export class MealsService {
 		return this.http.get(url, this.options).map(res => res.json());
 	}
 
+	addNewMeal() {
+		return true;
+	}
+
 }
