@@ -1,5 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy, EventEmitter } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
+
+import { Meal } from "../../../../app/containers/models/meal";
 
 @Component({
 	selector: 'meal-form',
@@ -9,6 +11,9 @@ import { FormArray, FormGroup, FormBuilder, FormControl, Validators } from "@ang
 })
 export class MealFormComponent implements OnInit {
 
+	@Output()
+	create = new EventEmitter<Meal>();
+
 	form: FormGroup
 
 	constructor(
@@ -16,7 +21,9 @@ export class MealFormComponent implements OnInit {
 	) { }
 
 	createMeal() {
-		console.log(this.form.value)
+		if (this.form.valid) {
+			this.create.emit(this.form.value)
+		}
 	}
 
 	ngOnInit() {
@@ -28,6 +35,13 @@ export class MealFormComponent implements OnInit {
 
 	get ingredients() {
 		return this.form.get('ingredients') as FormArray
+	}
+
+	get required() {
+		return (
+			this.form.get('name').hasError('required') &&
+			this.form.get('name').touched
+		)
 	}
 
 	addIngredient() {
