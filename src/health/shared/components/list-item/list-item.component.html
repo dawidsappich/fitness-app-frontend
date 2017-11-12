@@ -1,0 +1,20 @@
+<div class="list-item">
+	<a [routerLink]="getItemRoute(item)">
+		<p class="list-item__name">{{ item.name }}</p>
+		<p class="list-item__ingredients">
+			<span>
+				{{ item.ingredients }}
+			</span>
+		</p>
+	</a>
+
+	<div *ngIf="isToggled" class="list-item__delete">
+		<p>Delete?</p>
+		<button (click)="removeItem()" class="confirm" type="button">Yes</button>
+		<button (click)="toggle()" class="cancel" type="button">No</button>
+	</div>
+
+	<button class="trash" type="button" (click)="toggle()">
+		<img src="/img/remove.svg" alt="">
+	</button>
+</div>
