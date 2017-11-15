@@ -6,8 +6,7 @@
 			<label>
 				<h3>Meal name</h3>
 				<input type="text" placeholder="e.g. Müsli" formControlName="name">
-				<div class="error"
-				*ngIf="required"></div>
+				<div class="error" *ngIf="required"></div>
 			</label>
 
 		</div>
@@ -32,14 +31,29 @@
 
 		<div class="meal-form__submit">
 			<div>
-				<button class="button" (click)="createMeal()" type="button">
+				<button *ngIf="!exists" class="button" (click)="createMeal()" type="button">
 					Create a meal
+				</button>
+				<button *ngIf="exists" class="button" (click)="updateMeal()" type="button">
+					Save
 				</button>
 				<a class="button button--cancel" [routerLink]="['../']">
 					Cancel
 				</a>
-
 			</div>
+
+			<div class="meal-form__delete" *ngIf="exists">
+				<div *ngIf="isToggled">
+					<p>Delete?</p>
+					<button (click)="removeMeal()" class="confirm" type="button">Yes</button>
+					<button (click)="toggle()" class="cancel" type="button">No</button>
+				</div>
+
+				<button class="button button--delete" type="button" (click)="toggle()">
+					Delete
+				</button>
+			</div>
+
 		</div>
 
 	</form>

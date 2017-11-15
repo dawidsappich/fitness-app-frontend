@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, Input, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 
 import { Meal } from "../../../../app/containers/models/meal";
@@ -9,16 +9,59 @@ import { Meal } from "../../../../app/containers/models/meal";
 	styleUrls: ['meal-form.component.scss'],
 	templateUrl: 'meal-form.component.html'
 })
-export class MealFormComponent implements OnInit {
+export class MealFormComponent implements OnChanges {
 
 	@Output()
 	create = new EventEmitter<Meal>();
+	@Output()
+	update = new EventEmitter<Meal>();
+	@Output()
+	remove = new EventEmitter<Meal>();
 
-	form: FormGroup
+	@Input()
+	meal: any;
+
+	form: FormGroup = this.fb.group({
+		name: ['', Validators.required],
+		ingredients: this.fb.array([''])
+	})
+
+	isToggled = false;
+	exists = false;
 
 	constructor(
 		private fb: FormBuilder
 	) { }
+
+	ngOnChanges(changes: SimpleChanges) {
+
+		if (this.meal.message && this.meal.message.name) {
+			this.exists = true;
+			this.emptyIngredients();
+
+			const value = this.meal;
+
+			this.form.patchValue({
+				name: changes.meal.currentValue.message.name,
+				ingredients: changes.meal.currentValue.message.ingredients
+			});
+
+			// populate the FormArray with the new values
+			if (value.message.ingredients) {
+				for (const item of value.message.ingredients) {
+					this.ingredients.push(new FormControl(item));
+				}
+			}
+
+		}
+	}
+
+	emptyIngredients() {
+		while (this.ingredients.controls.length) {
+			this.ingredients.removeAt(0);
+		}
+	}
+
 
 	createMeal() {
 		if (this.form.valid) {
@@ -26,11 +69,14 @@ export class MealFormComponent implements OnInit {
 		}
 	}
 
-	ngOnInit() {
-		this.form = this.fb.group({
-			name: ['', Validators.required],
-			ingredients: this.fb.array([''])
-		})
+	removeMeal() {
+		this.remove.emit(this.form.value)
+	}
+
+	updateMeal() {
+		if (this.form.valid) {
+			this.update.emit(this.form.value)
+		}
 	}
 
 	get ingredients() {
@@ -51,4 +97,10 @@ export class MealFormComponent implements OnInit {
 	removeIngredient(index: number) {
 		this.ingredients.removeAt(index);
 	}
+
+	toggle() {
+		this.isToggled = !this.isToggled;
+	}
+
+
 }
