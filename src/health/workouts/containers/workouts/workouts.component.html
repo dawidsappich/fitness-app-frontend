@@ -1,1 +1,19 @@
-<div>Workouts</div>
+<div class="workouts">
+	<div class="workouts__title">
+		<h1>
+			<img src="/img/workout.svg"> Your Workouts
+		</h1>
+		<a class="btn__add" [routerLink]="['../workouts/new']">
+			<img src="/img/add-white.svg">add a new workout
+		</a>
+	</div>
+
+	<div *ngIf="workouts$ | async as workouts">
+
+		<list-item *ngFor="let workout of workouts.message" [item]="workout" (remove)="removeWorkout($event)">
+
+		</list-item>
+
+	</div>
+
+</div>
