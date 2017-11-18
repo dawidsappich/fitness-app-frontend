@@ -1,0 +1,91 @@
+<div class="workout-form">
+	<form [formGroup]="form">
+
+		<div class="workout-form__name">
+
+			<label>
+				<h3>Workout name</h3>
+				<input type="text" [placeholder]="placeholder" formControlName="name">
+				<div class="error" *ngIf="required"></div>
+			</label>
+
+			<label>
+				<h3>Type</h3>
+				<workout-type formControlName="type">
+				</workout-type>
+			</label>
+
+		</div>
+
+		<div class="workout-form__details">
+
+			<!-- Strength -->
+			<div *ngIf="form.get('type').value === 'strength'">
+				<div class="workout-form__fields" formGroupName="strength">
+					<label>
+						<h3>Reps</h3>
+						<input type="number" name="reps" formControlName="reps">
+					</label>
+					<label>
+						<h3>Sets</h3>
+						<input type="number" name="sets" formControlName="sets">
+					</label>
+					<label>
+						<h3>Weight
+							<span>(kg)</span>
+						</h3>
+						<input type="number" name="weights" formControlName="weight">
+					</label>
+				</div>
+			</div>
+
+			<!-- Endurance -->
+			<div *ngIf="form.get('type').value === 'endurance'">
+				<div class="workout-form__fields" formGroupName="endurance">
+					<label>
+						<h3>Distance
+							<span>(km)</span>
+						</h3>
+						<input type="number" name="distance" formControlName="distance">
+					</label>
+					<label>
+						<h3>Duration
+							<span>(minutes)</span>
+						</h3>
+						<input type="number" name="duration" formControlName="duration">
+					</label>
+				</div>
+			</div>
+
+		</div>
+
+
+		<div class="workout-form__submit">
+			<div>
+				<button *ngIf="!exists" class="button" (click)="createWorkout()" type="button">
+					Create a workout
+				</button>
+				<button *ngIf="exists" class="button" (click)="updateWorkout()" type="button">
+					Save
+				</button>
+				<a class="button button--cancel" [routerLink]="['../']">
+					Cancel
+				</a>
+			</div>
+
+			<div class="workout-form__delete" *ngIf="exists">
+				<div *ngIf="isToggled">
+					<p>Delete?</p>
+					<button (click)="removeWorkout()" class="confirm" type="button">Yes</button>
+					<button (click)="toggle()" class="cancel" type="button">No</button>
+				</div>
+
+				<button class="button button--delete" type="button" (click)="toggle()">
+					Delete
+				</button>
+			</div>
+
+		</div>
+
+	</form>
+</div>
