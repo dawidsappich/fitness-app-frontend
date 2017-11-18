@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
 	selector: 'schedules',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
 	templateUrl: 'schedules.component.html'
 })
 export class SchedulesComponent {
-	constructor() {}
+
+	date$: Observable<Date>;
+
+	constructor() { }
+	
 }
