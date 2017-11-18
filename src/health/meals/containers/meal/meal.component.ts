@@ -54,11 +54,12 @@ export class MealComponent implements OnInit, OnDestroy {
 
 	updateMeal(meal: Meal) {
 		const id = this.route.snapshot.params.id
-		this.meal$ = this.mealService.updateMeal(id, meal);
+		this.mealService.updateMeal(id, meal).subscribe();
 		this.backToMeals();
 	}
 
 	removeMeal(event: Meal) {
 		console.log('REMOVE', event)
+		// TODO: Call MealsService to remove meal form DB
 	}
 }

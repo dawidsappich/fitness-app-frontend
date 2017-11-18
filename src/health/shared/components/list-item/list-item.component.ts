@@ -19,7 +19,7 @@ export class ListItemComponent {
 	constructor() { }
 
 	getItemRoute(item: any) {
-		return [`../meals`, item._id];
+		return [`../${this.item.ingredients ? 'meals' : 'workouts'}`, item._id];
 	}
 
 	removeItem() {
